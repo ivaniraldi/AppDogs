@@ -1,0 +1,19 @@
+.title{
+    background: url("../../sources/backgroundLanding.jpg");
+    color: cornsilk;
+    width: 500px;
+    position: relative;
+    top: 50px;
+    left: 20px;
+
+}
+.span{
+    color:honeydew;
+    width: 500px;
+}
+.button{
+    position: relative;
+    top: 55px;
+    left: 20px;
+    width: 200px;
+}

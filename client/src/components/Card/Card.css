@@ -1,0 +1,19 @@
+.imgCard{
+    height: 150px;
+    border-radius: 5px;
+    border-style:solid;
+    margin-left: 95px;
+}
+.content{
+    margin-left: 20px;
+    background-color: rgb(250, 255, 249);
+    border-radius: 10px;
+    justify-content: center;
+    width: 400px;
+    align-items: center;
+    border-style: solid;
+    padding: 10px;
+}
+.textoCard{
+    margin-left: 10px;
+}
