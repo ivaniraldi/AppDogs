@@ -1,81 +1,145 @@
-import React, { useEffect, useState } from 'react'
-import Cards from '../Cards/Cards'
-import style from './Home.css'
-import SearchBar from '../SearchBar/SearchBar'
-import Nav from '../Nav/Nav'
-import Paginate from '../Paginate/Paginate'
-import { useSelector, useDispatch } from 'react-redux'
-import { filterTemperament, getDogs, getTemperaments } from '../../actions'
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    getDogDetails,
+  getDogs,
+  getTemperaments,
+  orderByName,
+  orderByWeight,
+} from "../../actions";
+import NavBar from "../NavBar/NavBar";
+import { Link } from "react-router-dom";
 
 
 export default function Home() {
+  const dispatch = useDispatch();
 
-    let stateDog = useSelector((state) => state.dogs);
-    const dispatch = useDispatch()
-    const data = useSelector((state) => state.data)
-    const [currentPage, setCurrentPage] = useState(1)
-    const [xPage] = useState(8)
-    const filterTemp = useSelector((state) => state.filterTemp);
+  const temps = useSelector((state) => state.temperaments);
+  const Dogs = useSelector((state) => state.filterDogs);
+  const [dogsToShow, setdogsToShow] = useState([]);
+  const [page, setPage] = useState(1);
+  const dogsPerPage = 8;
+  const lastDogtoShow = page * dogsPerPage;
+  const firstDogToShow = lastDogtoShow - dogsPerPage;
+  const totalPages = Math.ceil(Dogs.length / dogsPerPage);
 
-    useEffect(() => {
-        dispatch(getDogs())
-        dispatch(getTemperaments())
-        dispatch(filterTemperament('All'))
-    }, [dispatch]);
-    let resultD = stateDog;
-    if (data === 'Created'){
-        resultD = stateDog.filter(e => typeof(e.id) === 'string')
-    } else if (data === 'Other'){
-        resultD = stateDog.filter(e => typeof(e.id) === 'number')
+  useEffect(() => {
+    dispatch(getDogs());
+    dispatch(getTemperaments());
+  }, [dispatch]);
+  useEffect(() => {
+    setdogsToShow(Dogs.slice(firstDogToShow, lastDogtoShow));
+  }, [page, Dogs, firstDogToShow, lastDogtoShow]);
+
+  const orderDogsName = (type) => {
+    dispatch(orderByName(type));
+  };
+  const orderDogsWeight = (type) => {
+    dispatch(orderByWeight(type));
+  };
+
+  const handleChangePag = (type) => {
+    if (type === "-") {
+      setPage(page === 1 ? totalPages : page - 1);
+    } else {
+      setPage(page === totalPages ? 1 : page + 1);
     }
-    else{resultD= stateDog}
-    console.log(resultD)
+  };
+  function handlerOnChangeTemps(e) {
 
-    const indexLast = currentPage * xPage;
-    const indexFirst = indexLast - xPage;
-    const currentDog = resultD.slice(indexFirst, indexLast);
-    const paginate = (pageNumber) =>{setCurrentPage(pageNumber)};
-    const allpages = Math.ceil(resultD.length / xPage)
-    var next = currentPage;
-    var previus = currentPage;
+  }
 
-    if(currentPage < allpages){
-        next = currentPage + 1;
-    };
-    if(currentPage > 1){
-        previus = currentPage - 1;
-    };
+  return (
+    <div>
+      <NavBar></NavBar>
+      <ul className="nav nav-pills">
+        <li className="nav-item">
+          <p className="nav-link disabled">Filter by Name</p>
+        </li>
+        <li className="nav-item">
+          <button className="nav-link active" onClick={() => orderDogsName("ASC")}>
+            A-Z 
+          </button>
+        </li>
+        <li className="nav-item">
+          <button className="nav-link active" onClick={() => orderDogsName("DSC")}>
+            Z-A
+          </button>
+        </li>
+        <li className="nav-item">
+          <p className="nav-link disabled">
+          By Weight
+          </p>
+        </li>
+        <li className="nav-item">
+      <button className="nav-link active" onClick={() => orderDogsWeight("MIN")}>
+        Min-Max
+      </button>
+        </li>
+        <li className="nav-item">
+      <button className="nav-link active" onClick={() => orderDogsWeight("MAX")}>
+        Max-Min
+      </button>
+        </li>
+        <li className="nav-item">
+          <p className="nav-link disabled">
+          By Temperament
+          </p>          
+        </li>
+        <li className="nav-item">
+      <select className="nav-link active" onChange={handlerOnChangeTemps}>
+      <option value="" />
+            {temps &&
+              temps.map((el) => (
+                <option value={el.code + " " + el.name} key={el.code}>
+                  {el.name}
+                </option>
+              ))}
+        Select
+      </select>
+        </li>
+      </ul>
+      <div className="container">
+      <div className="row">
+        {dogsToShow.map((e) => {
+          return (
+              <Link className="card w-25" to={`/details/${e.id}`} onClick={() => dispatch(getDogDetails(e.id))}>
+  
+              <h4 className="card-body">{e.name}</h4>
+              <img  className="card-body" src={e.img} alt="Not found" />
+              <p className="card-body">{e.temperament}</p>
+              <p className="card-body">{e.weight} kg.</p>
+            </Link>
+            
 
-    if (stateDog && filterTemp !== undefined){
-    
-        // eslint-disable-next-line array-callback-return
-        stateDog = stateDog.filter((e) => {
-          if (filterTemp === "All") {
 
-            return stateDog;
-          } else if (e.temperament !== undefined) {
-            return e.temperament.split(",").join("").match(filterTemp);
-          }
-        });
-      }
 
-    return (
-        <div>
-
-            <div className={style.background}>
-            <Nav/>
-            <SearchBar/>
-            <Paginate 
-                xPage={xPage} 
-                result={resultD.length} 
-                paginate={paginate}
-                previus={previus}
-                next={next}
-                />
-            <div className={style.back}>
-                <Cards stateDog={currentDog}/>
-            </div>
-            </div>
+);
+})}
+      </div>
+      </div>
+      <div className="card">
+          <div className="card-body">
+        {Dogs.length > dogsPerPage && (
+            
+              <ul className="nav nav-pills">
+                  <li className="nav-item">
+          <button className="nav-link active" onClick={() => handleChangePag("-")}>
+            Prev
+          </button>
+        </li>
+        <li className="nav-item">
+          <p className="nav-link disabled">{page}</p>
+        </li>
+        <li className="nav-item">
+          <button className="nav-link active" onClick={() => handleChangePag("+")}>
+          Next
+          </button>
+        </li>
+        </ul>
+        )}
         </div>
-    )
+</div>
+    </div>
+  );
 }

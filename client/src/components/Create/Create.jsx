@@ -1,10 +1,11 @@
 import React from "react";
 import { useState, useEffect }  from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { postDog, getTemperaments } from "../../actions";
-import styles from "./Create.css";
-import Nav from "./../Nav/Nav.jsx"
+import styles from "./Create.module.css";
+import NavBar from "../NavBar/NavBar";
+
 
 
 function validate(input) {
@@ -48,7 +49,6 @@ function validate(input) {
 export default function CreateDog () {
   
     const dispatch = useDispatch()
-    const history = useHistory()                           // mètodo del router que me redirige a la ruta que yo le diga 
     const temperaments = useSelector((state) => state.temperaments)
     const [temps, setTemps] = useState([])              
     const [errors, setErrors] = useState({});          //genero un estado local errors y setErrors que va ser un objeto vacío  
@@ -135,13 +135,13 @@ export default function CreateDog () {
         temperament: []  
     })
         setTemps([])                             //seteo el array de temps seleccionados por el usuario para que quede vacio de nuevo
-        history.push("/home")                    //cuando termine de hacer esto mandáme al home (porque ya creé mi dog)
+                 //cuando termine de hacer esto mandáme al home (porque ya creé mi dog)
     }
     console.log(temperaments)
     
     return(
         <div className={styles.bkg}> 
-        <Nav/>
+        <NavBar/>
         <div className={styles.container}>
             <h1 className={styles.title}>Create Your Dog!</h1>
             <form  className={styles.form}

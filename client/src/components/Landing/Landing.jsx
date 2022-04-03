@@ -1,20 +1,17 @@
 import React from "react";
-import "./Landing.css"
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
-
-
-export default function Landing(){
-    return(
-        <>
-        <div className="title">
-            <h1>Dogs Breed APP</h1>
-            <span className="span">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque id perspiciatis voluptatem, repudiandae dolore molestias dolorem hic a aliquid esse modi quas aperiam eius tempora officia ullam necessitatibus suscipit dolorum?</span>
-        <Link to="/home">
-            <button className="button">Enter to website.</button>
-        </Link>
-
+export default function Landing() {
+  return (
+    <div>
+      <h1>Welcome to AppDogs</h1>
+      <Link to="/home">
+        <div className="d-grid gap-2">
+          <button className="btn btn-primary" type="button">
+            Let's go...
+          </button>
         </div>
-        </>
-    )
+      </Link>
+    </div>
+  );
 }

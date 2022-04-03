@@ -1,20 +1,21 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Route} from 'react-router-dom';
-import Home from './components/Home/Home';
-import Landing from './components/Landing/Landing';
-import Details from './components/Details/Details'
-import Create from './components/Create/Create'
+import { Route, Routes} from 'react-router-dom';
+import Landing from './components/Landing/Landing.jsx';
+import Home from './components/Home/Home.jsx';
+import Details from './components/Details/Details';
+import Create from './components/Create/Create';
 
 function App() {
   return (
-    <BrowserRouter>
-        <Route exact path= "/" component={Landing}/>
-        <Route exact path= "/home" component={Home}/>
-        <Route exact path= "/create" component={Create}/>
-        <Route exact path= "/details/:id" component={Details}/>
-        <Route exact path= "/about" component={Home}/>
-    </BrowserRouter>
+  <>
+  <Routes>
+        <Route path="/" element={<Landing/>} />
+        <Route path="/home" element={<Home/>}/>
+        <Route path="/create" element={<Create/>} />
+        <Route path="/details/:id" element={<Details/>}/>
+  </Routes> 
+  </>
   );
 }
 

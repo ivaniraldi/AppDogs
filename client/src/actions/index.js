@@ -2,16 +2,16 @@ import axios from "axios";
 
 export function getDogs(){
     return async function(dispatch){
-        var allDogs= await axios.get("http://localhost:3001/dogs")
+        const dogs= await axios.get("http://localhost:3001/dogs")
         return dispatch ({
             type: "GET_DOGS",
-            payload: allDogs.data
+            payload: dogs.data
         })
     }
 }
 export function getTemperaments(){
     return async function(dispatch){
-        var temperaments = await axios.get("http://localhost:3001/temperament",[]
+        const temperaments = await axios.get("http://localhost:3001/temperament",[]
         );
         return dispatch ({
             type: 'GET_TEMPERAMENTS',
@@ -22,7 +22,7 @@ export function getTemperaments(){
 export function getDogsName(name){
     return async function(dispatch){
         try{
-        var dogsName = await axios.get(`http://localhost:3001/dogs?name=${name}`,{});
+        const dogsName = await axios.get(`http://localhost:3001/dogs?name=${name}`,{});
         return dispatch ({
             type: 'GET_DOGS_NAME',
             payload: dogsName.data
@@ -35,7 +35,7 @@ export function getDogsName(name){
 export function getDogDetails(id){
     return async function(dispatch){
     try {
-        var dogDetails = await axios.get(`http://localhost:3001/dogs/${id}`);
+        const dogDetails = await axios.get(`http://localhost:3001/dogs/${id}`);
         return dispatch ({
             type: "GET_DOGS_DETAIL",
             payload: dogDetails.data
@@ -47,28 +47,25 @@ export function getDogDetails(id){
     
 };
 
-export function sortByName(payload){
-    return {
-        type: "SORT_BY_NAME",
-        payload
-    }
-}
-export function loading(){
-    return{
-        type: "LOADING",
-    }
-}
 export function postDog(payload){
     return async function(){
-        var newDog = await axios.post('http://localhost:3001/dog', payload);
+        const newDog = await axios.post('http://localhost:3001/dog', payload);
         return newDog
     };
  
 };
-export function orderDogs(order){
+export function orderByWeight(order){
     return function(dispatch){
         dispatch({
-            type: 'ORDER_DOGS',
+            type: 'ORDER_BY_WEIGHT',
+            payload: order
+        })
+    }
+};
+export function orderByName(order){
+    return function(dispatch){
+        dispatch({
+            type: 'ORDER_BY_NAME',
             payload: order
         })
     }
