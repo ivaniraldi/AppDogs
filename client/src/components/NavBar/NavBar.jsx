@@ -23,7 +23,7 @@ export default function NavBar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
     <div className="container-fluid">
-      <a className="navbar-brand" href="/home">AppDogs</a>
+      <a className="navbar-brand" href="/home">🐶woofizy</a>
       <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
@@ -36,8 +36,8 @@ export default function NavBar() {
             <a className="nav-link" href="/create">Create a breed</a>
           </li>
         </ul>
-        <form className="d-flex">
-          <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={(e) => handleChange(e)}/>
+        <form className="d-flex"> 
+          <input className="form-control me-2" type="search" placeholder="Search a breed" aria-label="Search" onChange={(e) => handleChange(e)}/>
           <button className="btn btn-outline-success" type="submit"onClick={(e) => onSearch(e)}>Search</button>
         </form>
       </div>

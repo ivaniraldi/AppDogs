@@ -18,6 +18,8 @@ router.get("/", async(req,res)=>{
                 img: e.image.url,
                 weight: e.weight.metric,
                 temperament: e.temperament,
+                height: e.height.metric,
+                createdInDb: e.createdInDb
             }
         })
         let mapDb= dbDogs.map((e)=>{
@@ -28,7 +30,10 @@ router.get("/", async(req,res)=>{
                 name: e.name,
                 img: e.img,
                 weight: e.weight,
+                height: e.height,
+                createdInDb: e.createdInDb,
                 temperament: temp.join(" "),
+
             }
         })
         let searched= mapDb.concat(mapApi);

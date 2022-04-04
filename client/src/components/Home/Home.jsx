@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    getDogDetails,
+  filterDogsByOrigin,
+  filterTemperament,
+  getDogDetails,
   getDogs,
   getTemperaments,
   orderByName,
@@ -9,7 +11,7 @@ import {
 } from "../../actions";
 import NavBar from "../NavBar/NavBar";
 import { Link } from "react-router-dom";
-
+import Card from "../Cards/Card";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -46,9 +48,14 @@ export default function Home() {
     }
   };
   function handlerOnChangeTemps(e) {
-
+    e.preventDefault()
+    dispatch(filterTemperament(e.target.value));
   }
 
+  function handleFilterOrigin(e) {
+    e.preventDefault();
+    dispatch(filterDogsByOrigin(e.target.value))
+}
   return (
     <div>
       <NavBar></NavBar>
@@ -57,89 +64,132 @@ export default function Home() {
           <p className="nav-link disabled">Filter by Name</p>
         </li>
         <li className="nav-item">
-          <button className="nav-link active" onClick={() => orderDogsName("ASC")}>
-            A-Z 
+          <button
+          style={{marginRight:"5px"}}
+            className="nav-link active"
+            onClick={() => orderDogsName("ASC")}
+          >
+            A-Z
           </button>
         </li>
         <li className="nav-item">
-          <button className="nav-link active" onClick={() => orderDogsName("DSC")}>
+          <button
+            className="nav-link active"
+            onClick={() => orderDogsName("DSC")}
+          >
             Z-A
           </button>
         </li>
         <li className="nav-item">
-          <p className="nav-link disabled">
-          By Weight
-          </p>
+          <p className="nav-link disabled">By Weight</p>
         </li>
         <li className="nav-item">
-      <button className="nav-link active" onClick={() => orderDogsWeight("MIN")}>
-        Min-Max
-      </button>
+          <button
+          style={{marginRight:"5px"}}
+            className="nav-link active"
+            onClick={() => orderDogsWeight("MIN")}
+          >
+            Min-Max
+          </button>
         </li>
         <li className="nav-item">
-      <button className="nav-link active" onClick={() => orderDogsWeight("MAX")}>
-        Max-Min
-      </button>
+          <button
+            className="nav-link active"
+            onClick={() => orderDogsWeight("MAX")}
+          >
+            Max-Min
+          </button>
         </li>
         <li className="nav-item">
-          <p className="nav-link disabled">
-          By Temperament
-          </p>          
+          <p className="nav-link disabled">By Temperament</p>
         </li>
         <li className="nav-item">
-      <select className="nav-link active" onChange={handlerOnChangeTemps}>
-      <option value="" />
-            {temps &&
-              temps.map((el) => (
-                <option value={el.code + " " + el.name} key={el.code}>
-                  {el.name}
-                </option>
-              ))}
-        Select
-      </select>
+          <select
+            className="nav-link active"
+            onChange={(e) => handlerOnChangeTemps(e)}
+          >
+            <option key={0} value="all">
+              All temperaments
+            </option>
+            {temps
+              ?.sort(function (a, b) {
+                if (a.name < b.name) return -1;
+                if (a.name > b.name) return 1;
+                return 0;
+              })
+              .map((el) => {
+                return (
+                  <option key={el.id} value={el.name}>
+                    {el.name}
+                  </option>
+                );
+              })}
+            Select
+          </select>
         </li>
+          <li className="nav-item">
+          <p className="nav-link disabled">By Origin</p>
+        </li>
+        <li  >
+                        <select className='nav-link active' onChange={e => handleFilterOrigin(e)}  >
+                            <option value='all'>All breeds</option>
+                            <option value='api'>Existent breeds</option>
+                            <option value='created'>Created breeds</option>
+                        </select>
+                    </li>
       </ul>
       <div className="container">
-      <div className="row">
-        {dogsToShow.map((e) => {
-          return (
-              <Link className="card w-25" to={`/details/${e.id}`} onClick={() => dispatch(getDogDetails(e.id))}>
-  
-              <h4 className="card-body">{e.name}</h4>
-              <img  className="card-body" src={e.img} alt="Not found" />
-              <p className="card-body">{e.temperament}</p>
-              <p className="card-body">{e.weight} kg.</p>
-            </Link>
-            
+        <div className="row">
+          {dogsToShow.map((e) => {
+            return (
+              <Link
+                to={`/details/${e.id}`}
+                style={{textDecoration:"none", color:"black", width:"300px", height:"400px"}}
+                onClick={() => dispatch(getDogDetails(e.id))}
+              >
+                <Card 
+                   name={e.name}
+                   image={e.img}
+                   temperaments={e.temperament}
+                   weight={e.weight}
+                   key={e.id}
+                   />
 
-
-
-);
-})}
-      </div>
+              </Link>
+            );
+          })}
+        </div>
       </div>
       <div className="card">
-          <div className="card-body">
-        {Dogs.length > dogsPerPage && (
-            
-              <ul className="nav nav-pills">
-                  <li className="nav-item">
-          <button className="nav-link active" onClick={() => handleChangePag("-")}>
-            Prev
-          </button>
-        </li>
-        <li className="nav-item">
-          <p className="nav-link disabled">{page}</p>
-        </li>
-        <li className="nav-item">
-          <button className="nav-link active" onClick={() => handleChangePag("+")}>
-          Next
-          </button>
-        </li>
-        </ul>
-        )}
+        <div className="card-body" style={{justifyContent:"space-around"}}>
+          {Dogs.length > dogsPerPage && (
+            <ul className="nav nav-pills" style={{justifyContent:"space-evenly"}}>
+              <li className="nav-item">
+                <button
+                style={{justifyContent:"space-around"}}
+                  className="nav-link active"
+                  onClick={() => handleChangePag("-")}
+                >
+                  Prev
+                </button>
+              </li>
+              <li className="nav-item"
+              style={{justifyContent:"space-around"}}>
+                
+                <p className="nav-link disabled">{page}</p>
+              </li>
+              <li className="nav-item">
+                <button
+                  className="nav-link active"
+                  onClick={() => handleChangePag("+")}
+                >
+                  Next
+                </button>
+              </li>
+            </ul>
+          )}
         </div>
-</div>
+      </div>
     </div>
   );
 }

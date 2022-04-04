@@ -78,6 +78,12 @@ export function filterTemperament(payload){
         })
     }
 };
+export function filterDogsByOrigin(payload) {
+    return {
+        type: "FILTER_BY_ORIGIN",
+        payload,
+    }
+};
 export function selectData(data){
     return function(dispatch){
         dispatch({

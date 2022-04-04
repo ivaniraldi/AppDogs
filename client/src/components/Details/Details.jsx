@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import NavBar from "../NavBar/NavBar";
-import s from "./Details.module.css";
+
 
 export default function Details() {
   const e = useSelector((state) => state.dogDetails);
@@ -9,14 +9,14 @@ export default function Details() {
   return (
     <div>
       <NavBar></NavBar>
-      <div className="container">
-        <div className="row">
+        <div className="container">
+      <div className="card"style={{width:"400px"}}>
+          <img class="card-img-top"  src={e.img} alt="Not found" />
           <h4 className="card-body">{e.name}</h4>
-          <img className={s.imgD} src={e.img} alt="Not found" />
-          <p className="card-body">{e.temperament}</p>
-          <p className="card-body">{e.life_span}</p>
-          <p className="card-body">{e.height} inches.</p>
-          <p className="card-body">{e.weight} kg.</p>
+          <p className="list-group-item">Temperaments: {e.temperament}</p>
+          <p className="list-group-item">Life span: {e.life_span}.</p>
+          <p className="list-group-item">Height: {e.height} inches.</p>
+          <p className="list-group-item">Weight: {e.weight} kg.</p>
         </div>
       </div>
     </div>
