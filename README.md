@@ -25,9 +25,9 @@ The idea is to create an application in which you can see different breeds of do
 > [🐶woofizy](https://woofizy.vercel.app/)
 >
 <p>
-<img src="./LANDING.PNG">
-<img src="./HOME.PNG">
-<img src="./CREATE.PNG">
-<img src="./DETAIL.PNG">
+<img src="./LANDING.png">
+<img src="./HOME.png">
+<img src="./CREATE.png">
+<img src="./DETAIL.png">
 </p>
 
