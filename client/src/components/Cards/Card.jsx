@@ -4,7 +4,7 @@ import React from "react";
 export default function Card({ image, name, temperaments, weight, id }) {
 
     return (
-        <div className='card'style={{width: "13rem"}} >
+        <div className='card'style={{width: "19rem"}} >
             <img src={image} alt={`${name}`} width='200px' height={"200px"} class="card-img-top"/>
             <div className="card-body">
             <h5 className="card-title" >{name}</h5>
