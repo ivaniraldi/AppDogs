@@ -25,7 +25,7 @@ const { conn, Temperament } = require('./src/db.js');
 
 
 // Syncing all the models at once.
-conn.sync({ force: true }).then(async() => {
+conn.sync({ force: false }).then(async() => {
 
   const api = await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`)
   const temperaments = [];
@@ -48,7 +48,7 @@ conn.sync({ force: true }).then(async() => {
   await Temperament.bulkCreate(result)
 
 
-  server.listen(3001, () => {
+  server.listen(process.env.PORT, () => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
   });
 });
